@@ -44,8 +44,8 @@
     const visitedTimestamp = localStorage.getItem("visitedTimestamp");
     const currentTime = Date.now();
 
-    // 10000 ms = 10 seconds, or use 20000 ms = 20 seconds
-    const isExpired = visitedTimestamp && currentTime - visitedTimestamp > 60000; 
+    // 10000 ms = 10 seconds
+    const isExpired = visitedTimestamp && currentTime - visitedTimestamp > 10000; 
 
     // If expired, remove the "visited" flag and timestamp
     if (isExpired) {
@@ -53,7 +53,24 @@
       localStorage.removeItem("visitedTimestamp");
     }
 
+    // Function to get last click time
+    function getLastClickTime() {
+      const lastClick = localStorage.getItem("lastClickTime");
+      if (lastClick) {
+        const lastClickDate = new Date(parseInt(lastClick));
+        return `Last click time was: ${lastClickDate.toLocaleString()}`;
+      } else {
+        return "No click recorded yet.";
+      }
+    }
+
+    // Display last click time (optional)
+    console.log(getLastClickTime());
+
     function goNow() {
+      // Record the current time as the last click time
+      localStorage.setItem("lastClickTime", currentTime);
+
       if (!hasVisited || isExpired) {
         // First click or expired session: redirect to Adsterra
         localStorage.setItem("visited", "true");
