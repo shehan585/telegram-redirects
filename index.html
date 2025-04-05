@@ -1,52 +1,75 @@
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Redirecting...</title>
+  <title>Redirect Page</title>
   <style>
     body {
-      font-family: Arial, sans-serif;
+      font-family: sans-serif;
       text-align: center;
-      padding: 50px;
+      padding: 40px;
     }
-    .button {
-      background-color: #4CAF50; /* Green */
-      border: none;
+    .btn {
+      background-color: #28a745;
       color: white;
-      padding: 15px 32px;
-      text-align: center;
-      text-decoration: none;
-      display: inline-block;
-      font-size: 16px;
-      margin: 10px 2px;
+      padding: 15px 30px;
+      font-size: 18px;
+      border: none;
+      border-radius: 6px;
       cursor: pointer;
-      border-radius: 4px;
+      margin-top: 20px;
     }
-    .button:hover {
-      background-color: #45a049;
+    .btn:hover {
+      background-color: #218838;
     }
   </style>
 </head>
 <body>
-
-  <h2>Please wait...</h2>
-  <p>You will be redirected to the Telegram post soon. Click the button below when you're ready to continue.</p>
-
-  <button class="button" onclick="redirectToTelegram()">Watch Now</button>
+  <h2>Almost there!</h2>
+  <p>Click the button below to continue to the Telegram post.</p>
+  <button class="btn" onclick="goNow()">Watch Now</button>
 
   <script>
-    const params = new URLSearchParams(window.location.search);
-    const redirectLink = params.get('link');
+    // Get the dynamic Telegram link from the URL parameter
+    const url = new URLSearchParams(window.location.search).get('link');
+    
+    // Replace this with your Adsterra link
+    const adLink = "https://dedicationageunfortunately.com/eg9bswu6p4?key=13369d59880cc0bc481d999e53bf7d31"; 
 
-    function redirectToTelegram() {
-      if (redirectLink) {
-        window.location.href = redirectLink;
+    // Check if the user has visited before (localStorage)
+    const hasVisited = localStorage.getItem("visited");
+
+    // Check the timestamp of the last visit (24 hours expiration)
+    const visitedTimestamp = localStorage.getItem("visitedTimestamp");
+    const currentTime = Date.now();
+
+    // 86400000 ms = 24 hours
+    const isExpired = visitedTimestamp && currentTime - visitedTimestamp > 120; 
+
+    // If expired, remove the "visited" flag and timestamp
+    if (isExpired) {
+      localStorage.removeItem("visited");
+      localStorage.removeItem("visitedTimestamp");
+    }
+
+    function goNow() {
+      if (!hasVisited || isExpired) {
+        // First click or expired session: redirect to Adsterra
+        localStorage.setItem("visited", "true");
+        localStorage.setItem("visitedTimestamp", currentTime);
+        window.location.href = adLink;
       } else {
-        document.body.innerHTML = "<h2>Error: No link provided</h2>";
+        // Second click (not expired): redirect to the Telegram link
+        if (url) {
+          window.location.href = url;
+        } else {
+          alert('No Telegram link provided.');
+        }
       }
     }
   </script>
-
 </body>
 </html>
