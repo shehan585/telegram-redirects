@@ -47,7 +47,7 @@
     const currentTime = Date.now();
 
     // 86400000 ms = 24 hours
-    const isExpired = visitedTimestamp && currentTime - visitedTimestamp > 120; 
+    const isExpired = visitedTimestamp && currentTime - visitedTimestamp > 3; 
 
     // If expired, remove the "visited" flag and timestamp
     if (isExpired) {
