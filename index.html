@@ -45,7 +45,7 @@
     const currentTime = Date.now();
 
     // 10000 ms = 10 seconds
-    const isExpired = visitedTimestamp && currentTime - visitedTimestamp > 10000; 
+    const isExpired = visitedTimestamp && currentTime - visitedTimestamp > 60000; 
 
     // If expired, remove the "visited" flag and timestamp
     if (isExpired) {
