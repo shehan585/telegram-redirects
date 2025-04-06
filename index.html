@@ -37,18 +37,18 @@
     // Replace this with your Adsterra link
     const adLink = "https://dedicationageunfortunately.com/eg9bswu6p4?key=13369d59880cc0bc481d999e53bf7d31"; 
 
-    // Check if the user has visited before (localStorage)
-    const hasVisited = localStorage.getItem("visited");
+    // Track the number of clicks using localStorage
+    let clickCount = parseInt(localStorage.getItem("clickCount")) || 0;
 
-    // Function to go to the appropriate link
+    // Function to handle the button click
     function goNow() {
-      if (!hasVisited) {
-        // First click: redirect to Adsterra (without the parameter)
-        localStorage.setItem("visited", "true"); // Mark as visited
+      if (clickCount % 2 === 0) {
+        // First click: Go to Adsterra
+        localStorage.setItem("clickCount", clickCount + 1); // Increment the click count
         window.location.href = adLink; // Redirect to Adsterra
       } else {
-        // Second click: remove "visited" flag and redirect to the Telegram link
-        localStorage.removeItem("visited"); // Remove the "visited" flag
+        // Second click: Go to Telegram link and reset everything
+        localStorage.setItem("clickCount", 0); // Reset the click count
         if (url) {
           window.location.href = url; // Redirect to the Telegram link
         } else {
