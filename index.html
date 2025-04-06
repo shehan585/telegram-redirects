@@ -40,46 +40,17 @@
     // Check if the user has visited before (localStorage)
     const hasVisited = localStorage.getItem("visited");
 
-    // Check the timestamp of the last visit (expiration in 10 seconds)
-    const visitedTimestamp = localStorage.getItem("visitedTimestamp");
-    const currentTime = Date.now();
-
-    // 10000 ms = 10 seconds
-    const isExpired = visitedTimestamp && currentTime - visitedTimestamp > 60000; 
-
-    // If expired, remove the "visited" flag and timestamp
-    if (isExpired) {
-      localStorage.removeItem("visited");
-      localStorage.removeItem("visitedTimestamp");
-    }
-
-    // Function to get last click time
-    function getLastClickTime() {
-      const lastClick = localStorage.getItem("lastClickTime");
-      if (lastClick) {
-        const lastClickDate = new Date(parseInt(lastClick));
-        return `Last click time was: ${lastClickDate.toLocaleString()}`;
-      } else {
-        return "No click recorded yet.";
-      }
-    }
-
-    // Display last click time (optional)
-    console.log(getLastClickTime());
-
+    // Function to go to the appropriate link
     function goNow() {
-      // Record the current time as the last click time
-      localStorage.setItem("lastClickTime", currentTime);
-
-      if (!hasVisited || isExpired) {
-        // First click or expired session: redirect to Adsterra
-        localStorage.setItem("visited", "true");
-        localStorage.setItem("visitedTimestamp", currentTime);
-        window.location.href = adLink;
+      if (!hasVisited) {
+        // First click: redirect to Adsterra (without the parameter)
+        localStorage.setItem("visited", "true"); // Mark as visited
+        window.location.href = adLink; // Redirect to Adsterra
       } else {
-        // Second click (not expired): redirect to the Telegram link
+        // Second click: remove "visited" flag and redirect to the Telegram link
+        localStorage.removeItem("visited"); // Remove the "visited" flag
         if (url) {
-          window.location.href = url;
+          window.location.href = url; // Redirect to the Telegram link
         } else {
           alert('No Telegram link provided.');
         }
