@@ -54,8 +54,8 @@
         if (url) {
           window.location.href = url; // Redirect to the Telegram link
         } else {
-          alert('No Telegram link provided.');
-        }
+        document.body.innerHTML = "<h2>Error: No link provided</h2>";
+      }
       }
     }
   </script>
