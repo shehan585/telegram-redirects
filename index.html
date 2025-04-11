@@ -3,35 +3,28 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Redirect Page</title>
+  <title>Click Test</title>
   <style>
     body {
-      font-family: sans-serif;
+      font-family: Arial, sans-serif;
       text-align: center;
-      padding: 40px;
-      color:white;
-      background-color:black
+      padding: 20px;
     }
-    .btn {
-      background-color: #28a745;
-      color: white;
-      padding: 15px 30px;
-      font-size: 18px;
-      border: none;
-      border-radius: 6px;
-      cursor: pointer;
+    .counter {
+      font-size: 24px;
       margin-top: 20px;
-    }
-    .btn:hover {
-      background-color: #218838;
     }
   </style>
 </head>
 <body>
-  <h2>Please Wait..</h2>
-  <button class="btn" onclick="goNow()">Watch Now</button>
-  <p>Ad එකක් load වුනොත් back වෙලා ආපහු watch now බට්න් එක ඔබන්න.</p>
-  
+  <h1>Click the Button to Test the Redirect</h1>
+  <button onclick="goNow()">Click Me!</button>
+
+  <!-- Visible counter -->
+  <div class="counter">
+    <p>Click Count: <span id="clickCounter">0</span></p>
+  </div>
+
   <script>
     // Get the dynamic Telegram link from the URL parameter
     const url = new URLSearchParams(window.location.search).get('link');
@@ -42,22 +35,33 @@
     // Track the number of clicks using localStorage
     let clickCount = parseInt(localStorage.getItem("clickCount")) || 0;
 
+    // Update the visible counter
+    function updateCounter() {
+      document.getElementById("clickCounter").textContent = clickCount;
+    }
+
     // Function to handle the button click
     function goNow() {
-      if (clickCount % 2 === 0) {
-        // First click: Go to Adsterra
-        localStorage.setItem("clickCount", clickCount + 1); // Increment the click count
-        window.location.href = adLink; // Redirect to Adsterra
+      clickCount++; // Increment the click count
+      localStorage.setItem("clickCount", clickCount); // Save updated count
+
+      updateCounter(); // Update visible counter
+
+      if (clickCount % 2 === 1) {
+        // Odd click: Go to Adsterra
+        window.location.href = adLink;
       } else {
-        // Second click: Go to Telegram link and reset everything
-        localStorage.setItem("clickCount", 0); // Reset the click count
+        // Even click: Go to Telegram link
         if (url) {
-          window.location.href = url; // Redirect to the Telegram link
+          window.location.href = url;
         } else {
-        document.body.innerHTML = "<h2>Error: No link provided</h2>";
-      }
+          document.body.innerHTML = "<h2>Error: No link provided</h2>";
+        }
       }
     }
+
+    // Initial counter update when page loads
+    updateCounter();
   </script>
 </body>
 </html>
