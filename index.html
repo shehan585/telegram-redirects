@@ -33,34 +33,32 @@
 </head>
 <body>
   <h2>Please Wait..</h2>
-  <p>Ad එකක් load වුනොත් back වෙලා ආපහු watch now බට්න් එක ඔබන්න.</p>
+  <p>Ad එකක් load වුනොත් back වෙලා ආපහු watch now බට්න් එක ඔබන්න..</p>
 
   <div id="buttonContainer"></div>
 
   <script>
-    const url = new URLSearchParams(window.location.search).get('link');
-    const adLink = "https://dedicationageunfortunately.com/eg9bswu6p4?key=13369d59880cc0bc481d999e53bf7d31";
+  const telegramLink = new URLSearchParams(window.location.search).get('link');
+  const adLink = "https://dedicationageunfortunately.com/eg9bswu6p4?key=13369d59880cc0bc481d999e53bf7d31";
 
-    // Array with 2 ad links and 1 telegram
-    const links = [adLink, adLink, url];
-    // Shuffle the links
-    const shuffled = links.sort(() => Math.random() - 0.5);
+  const links = [adLink, adLink, telegramLink];
+  const shuffled = links.sort(() => Math.random() - 0.5);
 
-    const container = document.getElementById("buttonContainer");
-
-    shuffled.forEach((link, index) => {
-      const btn = document.createElement("button");
-      btn.textContent = `Watch Now ${index + 1}`;
-      btn.className = "btn";
-      btn.onclick = () => {
-        if (link) {
-          window.location.href = link;
-        } else {
-          document.body.innerHTML = "<h2>Error: No Telegram link provided</h2>";
-        }
-      };
-      container.appendChild(btn);
-    });
-  </script>
+  shuffled.forEach((link, index) => {
+    const btn = document.createElement("button");
+    btn.textContent = `Watch Now ${index + 1}`;
+    btn.className = "btn";
+    btn.style.display = "block";
+    btn.style.margin = "15px auto";
+    btn.onclick = () => {
+      if (link) {
+        window.location.href = link;
+      } else {
+        alert("No Telegram link provided in URL");
+      }
+    };
+    document.body.appendChild(btn);
+  });
+</script>
 </body>
 </html>
