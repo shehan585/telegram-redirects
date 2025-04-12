@@ -20,7 +20,11 @@
       border: none;
       border-radius: 6px;
       cursor: pointer;
-      margin-top: 20px;
+      margin: 10px;
+      display: block;
+      width: 200px;
+      margin-left: auto;
+      margin-right: auto;
     }
     .btn:hover {
       background-color: #218838;
@@ -29,35 +33,34 @@
 </head>
 <body>
   <h2>Please Wait..</h2>
-  <button class="btn" onclick="goNow()">Watch Now</button>
   <p>Ad එකක් load වුනොත් back වෙලා ආපහු watch now බට්න් එක ඔබන්න.</p>
 
-  <script>
-    // Get the Telegram link from the URL parameter
-    const url = new URLSearchParams(window.location.search).get('link');
+  <div id="buttonContainer"></div>
 
-    // Your Adsterra link
+  <script>
+    const url = new URLSearchParams(window.location.search).get('link');
     const adLink = "https://dedicationageunfortunately.com/eg9bswu6p4?key=13369d59880cc0bc481d999e53bf7d31";
 
-    // Get or initialize click count from localStorage
-    let clickCount = parseInt(localStorage.getItem("clickCount")) || 0;
+    // Array with 2 ad links and 1 telegram
+    const links = [adLink, adLink, url];
+    // Shuffle the links
+    const shuffled = links.sort(() => Math.random() - 0.5);
 
-    function goNow() {
-      clickCount++;
-      localStorage.setItem("clickCount", clickCount);
+    const container = document.getElementById("buttonContainer");
 
-      if (clickCount % 2 === 1) {
-        // Odd click: Adsterra
-        window.location.href = adLink;
-      } else {
-        // Even click: Telegram
-        if (url) {
-          window.location.href = url;
+    shuffled.forEach((link, index) => {
+      const btn = document.createElement("button");
+      btn.textContent = `Watch Now ${index + 1}`;
+      btn.className = "btn";
+      btn.onclick = () => {
+        if (link) {
+          window.location.href = link;
         } else {
-          document.body.innerHTML = "<h2>Error: No link provided</h2>";
+          document.body.innerHTML = "<h2>Error: No Telegram link provided</h2>";
         }
-      }
-    }
+      };
+      container.appendChild(btn);
+    });
   </script>
 </body>
 </html>
