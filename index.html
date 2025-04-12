@@ -33,31 +33,40 @@
 </head>
 <body>
   <h2>Please Wait..</h2>
-  <p>Ad එකක් load වුනොත් back වෙලා ආපහු watch now බට්න් එක ඔබන්න..</p>
+  <p>Ad එකක් load වුනොත් back වෙලා ආපහු watch now බට්න් එක ඔබන්න.</p>
 
   <div id="buttonContainer"></div>
 
   <script>
-  const telegramLink = new URLSearchParams(window.location.search).get('link');
-  const adLink = "https://dedicationageunfortunately.com/eg9bswu6p4?key=13369d59880cc0bc481d999e53bf7d31";
+  const telegramLink = new URLSearchParams(window.location.search).get("link");
+  const adLinks = [
+    "https://dedicationageunfortunately.com/eg9bswu6p4?key=13369d59880cc0bc481d999e53bf7d3",
+    "https://dedicationageunfortunately.com/bg9bswu6p4?key=13369d59880ccteuwnwuw9e53bf7d3"
+  ];
 
-  const links = [adLink, adLink, telegramLink];
-  const shuffled = links.sort(() => Math.random() - 0.5);
+  const buttons = [
+    { type: "ad", url: adLinks[0] },
+    { type: "ad", url: adLinks[1] },
+    { type: "telegram", url: telegramLink }
+  ];
 
-  shuffled.forEach((link, index) => {
-    const btn = document.createElement("button");
-    btn.textContent = `Watch Now ${index + 1}`;
-    btn.className = "btn";
-    btn.style.display = "block";
-    btn.style.margin = "15px auto";
-    btn.onclick = () => {
-      if (link) {
-        window.location.href = link;
+  // Shuffle the button order
+  const shuffled = buttons.sort(() => 0.5 - Math.random());
+
+  // Create and append buttons
+  shuffled.forEach((btn, index) => {
+    const button = document.createElement("button");
+    button.className = "btn";
+    button.innerText = "Watch Now " + (index + 1);
+    button.onclick = () => {
+      if (btn.type === "telegram" && !btn.url) {
+        document.body.innerHTML = "<h2>Error: Telegram link not provided</h2>";
       } else {
-        alert("No Telegram link provided in URL");
+        window.location.href = btn.url;
       }
     };
-    document.body.appendChild(btn);
+    document.body.appendChild(button);
+    document.body.appendChild(document.createElement("br"));
   });
 </script>
 </body>
